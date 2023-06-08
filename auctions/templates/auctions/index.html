@@ -2,6 +2,12 @@
 
 {% block body %}
     <h2>Active Listings</h2>
-
-    TODO
+    <ul>
+        <li>
+            {% for listing in listings %}
+                {{ listing }} at {{ listing.highest_bid }}
+                <img src="{{ listing.image }}" alt="Image of {{ listing.title }}">
+            {% endfor %}
+        </li>
+    </ul>
 {% endblock %}
