@@ -3,7 +3,7 @@
 {% block body %}
     <h2>Active Listings</h2>
         {% for listing in listings %}
-        <div class="listing-container">
+        <a class="listing-container" href="{% url 'listing' listing_id=listing.id %}">
             <img src="/static/auctions/{{ listing.image_name }}" alt="Image of {{ listing.name }}">
             <div class="listing-text">
                 <p class="listing-name">{{ listing }}</p>
@@ -11,6 +11,6 @@
                 <p>{{ listing.description }}</p>
                 <p class="listing-time">Created {{ listing.time }}</p>
             </div>
-        </div>
+        </a>
         {% endfor %}
 {% endblock %}

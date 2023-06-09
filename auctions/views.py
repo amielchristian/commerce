@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import Listing, User
+from .models import Listing, User, Bid
 
 
 def index(request):
@@ -14,9 +14,16 @@ def index(request):
         "listings": listings
     })
 
-def listing(request):
-    return render(request, "auctions/listing.html")
+def listing(request, listing_id):
+    listing = Listing.objects.get(pk=listing_id)
+    bids = listing.bids.all()
+    bid_amount = len(bids)
 
+    return render(request, "auctions/listing.html", {
+        "listing": listing,
+        "bids": bids,
+        "bid_amount": bid_amount
+    })
 
 def login_view(request):
     if request.method == "POST":

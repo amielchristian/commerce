@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Listing: {{ listing.name }}</h2>
+    <img src="/static/auctions/{{ listing.image_name }}" alt="Image of {{ listing.name }}">
+    <p>{{ listing.description }}</p>
+    <h4>Price: ${{ listing.highest_bid }}</h4>
+
+    {{ bid_amount }} bids placed.
+
+    <h4>Details</h4>
+    <ul>
+        <li>Listed by: <a href="">{{ listing.lister }}</a></li>
+        <li>Category: {{ listing.category }}</li>
+        <li>Placed at: {{ listing.time }}</li>
+    </ul>
+{% endblock %}

@@ -25,7 +25,7 @@ class Listing(models.Model):
         return dir[-1]
 
     def highest_bid(self):
-        highest_bid_instance = self.bid_set.order_by('-bid').first()
+        highest_bid_instance = self.bids.order_by('-bid').first()
         if highest_bid_instance:
             return highest_bid_instance.bid
         return self.start_price
@@ -36,7 +36,7 @@ class Listing(models.Model):
 class Bid(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
     bid = models.DecimalField(decimal_places=2, max_digits=10)
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
 
     def __str__(self):
         return f"{self.bid} by {self.bidder} on {self.listing}"
