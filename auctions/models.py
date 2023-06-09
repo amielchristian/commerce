@@ -16,6 +16,7 @@ class Listing(models.Model):
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
     image = models.ImageField(upload_to="auctions/static/auctions")
     lister = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
+    description = models.TextField(null=True, blank=True, max_length=500)
     time = models.DateTimeField(auto_now_add=True)
     start_price = models.DecimalField(decimal_places=2, max_digits=10)
 

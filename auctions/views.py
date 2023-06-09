@@ -14,6 +14,9 @@ def index(request):
         "listings": listings
     })
 
+def listing(request):
+    return render(request, "auctions/listing.html")
+
 
 def login_view(request):
     if request.method == "POST":
