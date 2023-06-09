@@ -14,14 +14,20 @@ class Category(models.Model):
 class Listing(models.Model):
     name = models.CharField(max_length=64)
     category = models.ForeignKey(Category, on_delete=models.RESTRICT)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="auctions/static/auctions")
     lister = models.ForeignKey(User, on_delete=models.CASCADE, related_name="listings")
+    time = models.DateTimeField(auto_now_add=True)
+    start_price = models.DecimalField(decimal_places=2, max_digits=10)
+
+    def image_name(self):
+        dir = self.image.name.split("/")
+        return dir[-1]
 
     def highest_bid(self):
         highest_bid_instance = self.bid_set.order_by('-bid').first()
         if highest_bid_instance:
             return highest_bid_instance.bid
-        return None
+        return self.start_price
     
     def __str__(self):
         return f"{self.name}"
