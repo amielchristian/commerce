@@ -19,6 +19,7 @@ class Listing(models.Model):
     description = models.TextField(null=True, blank=True, max_length=500)
     time = models.DateTimeField(auto_now_add=True)
     start_price = models.DecimalField(decimal_places=2, max_digits=10)
+    is_active = models.BooleanField()
 
     def image_name(self):
         dir = self.image.name.split("/")

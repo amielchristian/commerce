@@ -10,8 +10,12 @@
 
     <h4>Details</h4>
     <ul>
-        <li>Listed by: <a href="">{{ listing.lister }}</a></li>
+        <li>Listed by: {{ listing.lister }}</li>
         <li>Category: {{ listing.category }}</li>
         <li>Placed at: {{ listing.time }}</li>
+        <li>Starting price: ${{ listing.start_price }}</li>
+        <li>Active: {{ listing.is_active }}</li>
     </ul>
+
+    <h4>Comments</h4>
 {% endblock %}
