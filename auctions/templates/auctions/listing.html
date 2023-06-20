@@ -4,10 +4,29 @@
     <h2>Listing: {{ listing.name }}</h2>
     <img src="/static/auctions/{{ listing.image_name }}" alt="Image of {{ listing.name }}">
     <p>{{ listing.description }}</p>
-    <h4>Price: ${{ listing.highest_bid }}</h4>
+    <h4>${{ listing.highest_bid }}</h4>
 
-    {{ bid_amount }} bids placed.
-
+    <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+        {% csrf_token %}
+        {{ bid_form }}
+    </form>
+    {% if listing.highest_bidder == "0" %}
+        <p>No bids yet.</p>
+    {% else %}
+        <p>
+            {{ bid_amount }}
+            {% if bid_amount == 1 %}
+                bid
+            {% else %}
+                bids
+            {% endif %}
+            placed. 
+            
+            {% if listing.highest_bidder == user %}
+                Your bid is the current highest bid.
+            {% endif %}
+        </p>
+    {% endif %}
     <h4>Details</h4>
     <ul>
         <li>Listed by: {{ listing.lister }}</li>

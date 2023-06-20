@@ -31,6 +31,12 @@ class Listing(models.Model):
             return highest_bid_instance.bid
         return self.start_price
     
+    def highest_bidder(self):
+        highest_bid_instance = self.bids.order_by('-bid').first()
+        if highest_bid_instance:
+            return highest_bid_instance.bidder
+        return "0"
+    
     def __str__(self):
         return f"{self.name}"
 
