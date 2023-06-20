@@ -70,6 +70,13 @@ def listing(request, listing_id):
         "bid_amount": bid_amount
     })
 
+def watchlist(request):
+    watchlist = request.user.watchlist.all()
+
+    return render(request, "auctions/watchlist.html", {
+        "watchlist": watchlist
+    })
+
 def login_view(request):
     if request.method == "POST":
 
