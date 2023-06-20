@@ -27,6 +27,8 @@
             {% endif %}
         </p>
     {% endif %}
+    <hr>
+    
     <h4>Details</h4>
     <ul>
         <li>Listed by: {{ listing.lister }}</li>
@@ -35,6 +37,21 @@
         <li>Starting price: ${{ listing.start_price }}</li>
         <li>Active: {{ listing.is_active }}</li>
     </ul>
+    <hr>
 
     <h4>Comments</h4>
+    <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+        {% csrf_token %}
+        {{ comment_form }}
+        <br>
+        <input type="submit">
+    </form>
+    {% for comment in comments %}
+        <div>
+            {{ comment.commenter }}:
+            {{ comment.comment }}
+            {{ comment.time }}
+        </div>
+        <br>
+    {% endfor %}
 {% endblock %}
