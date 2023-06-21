@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <form method="POST" action="{% url 'create_listing' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="create-listing">
+            {% for field in create_form %}
+                <tr>
+                    <td class="label"><label for="id_name">{{ field.label }}:&nbsp;</label></td>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+            <tr><td><input type="submit"></td></tr>
+        </table>
+    </form>
+{% endblock %}

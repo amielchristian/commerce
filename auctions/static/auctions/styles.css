@@ -39,6 +39,15 @@ img    {
 }
 
 textarea    {
-    width: 100%;
+    width: 50%;
+    padding: 5px;
     height: 100px;
+}
+
+.create-listing {
+    width: 100%
+}
+
+.create-listing .label  {
+    width: 10%;
 }

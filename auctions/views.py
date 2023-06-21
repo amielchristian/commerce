@@ -1,12 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
 
-from .models import Listing, User, Bid, Comment
+from .models import Listing, User, Bid, Comment, Category
 
 class PlaceBidForm(forms.Form):
     bid_amount = forms.DecimalField(label="", max_digits=9, decimal_places=2, max_value=999999999.99)
@@ -19,6 +19,13 @@ class PlaceBidForm(forms.Form):
 
 class CommentForm(forms.Form):
     comment = forms.CharField(label = "", widget=forms.Textarea(attrs={"placeholder": "Add a comment here"}))
+
+class CreateListingForm(forms.Form):
+    name = forms.CharField(label="Name")
+    category = forms.ChoiceField(choices=[(category, category) for category in Category.objects.all()])
+    image = forms.ImageField(required=False)
+    description = forms.CharField(widget=forms.Textarea(), required=False)
+    start_price = forms.DecimalField(label="Starting Price", max_digits=9, decimal_places=2, max_value=999999999.99)
 
 def index(request):
     listings = Listing.objects.filter(is_active=True).all()
@@ -87,6 +94,35 @@ def watchlist(request):
 
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist
+    })
+
+@login_required(login_url='login')
+def create_listing(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            form = CreateListingForm(request.POST, request.FILES)            
+
+            if form.is_valid():
+                name = form.cleaned_data["name"]
+                category = form.cleaned_data["category"]
+                image = form.cleaned_data["image"]
+                description = form.cleaned_data["description"]
+                start_price = form.cleaned_data["start_price"]
+
+                listing = Listing(
+                    name = name,
+                    category = Category.objects.get(category=category),
+                    image = image,
+                    lister=request.user,
+                    description = description,
+                    start_price = start_price,
+                    is_active = True
+                )
+                listing.save()
+                return HttpResponseRedirect(reverse("index"))
+
+    return render(request, "auctions/create-listing.html", {
+        "create_form": CreateListingForm()
     })
 
 def login_view(request):
