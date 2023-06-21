@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -58,6 +59,15 @@ def listing(request, listing_id):
                     comment.save()
                     listing.comments.add(comment)
 
+            else:
+                add = request.POST.get("add")
+                remove = request.POST.get("remove")
+
+                if add is not None:
+                    request.user.watchlist.add(listing)
+                elif remove is not None:
+                    request.user.watchlist.remove(listing)
+
             return HttpResponseRedirect(reverse(f"listing", args=[listing_id])) # redirect to listing page
 
     return render(request, "auctions/listing.html", {
@@ -67,9 +77,11 @@ def listing(request, listing_id):
         "listing": listing,
         "bids": bids,
         "comments": comments,
-        "bid_amount": bid_amount
+        "bid_amount": bid_amount,
+        "in_watchlist": request.user.watchlist.filter(id=listing_id).exists()
     })
 
+@login_required(login_url='login')
 def watchlist(request):
     watchlist = request.user.watchlist.all()
 
@@ -79,7 +91,6 @@ def watchlist(request):
 
 def login_view(request):
     if request.method == "POST":
-
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
@@ -88,7 +99,11 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+
+            if request.POST["next"]:
+                return HttpResponseRedirect(request.POST["next"])
+            else:
+                return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."

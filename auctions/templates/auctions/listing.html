@@ -27,6 +27,16 @@
             {% endif %}
         </p>
     {% endif %}
+
+    <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+        {% csrf_token %}
+        {% if in_watchlist %}
+            <input name="remove" type="submit" value="Remove from Watchlist"/>
+        {% else %}
+            <input name="add" type="submit" value="Add to Watchlist"/>
+        {% endif %}
+    </form>
+
     <hr>
     
     <h4>Details</h4>
