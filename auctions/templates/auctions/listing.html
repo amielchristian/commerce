@@ -10,7 +10,7 @@
         {% csrf_token %}
         {{ bid_form }}
     </form>
-    {% if listing.highest_bidder == 0 %}
+    {% if listing.highest_bidder == "no bids yet" %}
         <p>No bids yet.</p>
     {% else %}
         <p>
@@ -47,8 +47,8 @@
 
     {% else %}
         <p>
-            <b>You have unlisted this item.
-                {% if not listing.highest_bidder == 0 %}
+            <b>This item has been unlisted.
+                {% if not listing.highest_bidder == "no bids yet" %}
                     <span class="winner">                    
                         {{ listing.highest_bidder }}
                     </span> 

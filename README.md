@@ -5,6 +5,6 @@
 - allow user to add and remove listings from watchlist | done!
 - allow user to create and close listings | done!
 - bidding should automatically add the listing to the watchlist | done!
-- prevent users from seeing closed listings (unless they listed it or they won)
+- prevent users from seeing closed listings (unless they listed it or they won) | done!
 - prevent users from bidding on their own listings
 - add category view
