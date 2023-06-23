@@ -50,31 +50,39 @@ def listing(request, listing_id):
             form_1 = PlaceBidForm(request.POST)
             form_2 = CommentForm(request.POST)
 
+            # placing bids
             if form_1.is_valid():
                 if bool(form_1.cleaned_data):            
                     bid_amount = form_1.cleaned_data["bid_amount"] # isolate the bid amount from the cleaned form data
 
                     # check if bid amount is a valid bid amount  
-                    if bid_amount >= minimum_bid:              
+                    if bid_amount >= minimum_bid:    
                         bid = Bid(bidder=request.user, bid=bid_amount, listing=listing) # create bid object
                         bid.save() # save the object, inserting it to the database
                         listing.bids.add(bid) # add bid to bids
+                        if listing not in request.user.watchlist.all():
+                            request.user.watchlist.add(listing) # automatically add listing to watchlist after bidding
 
+            # making comments
             elif form_2.is_valid():
                 if bool(form_2.cleaned_data):            
                     comment = Comment(comment=form_2.cleaned_data["comment"], commenter=request.user, listing=listing)
                     comment.save()
                     listing.comments.add(comment)
 
+            # simpler operations that don't require forms
             else:
                 add = request.POST.get("add")
                 remove = request.POST.get("remove")
                 unlist = request.POST.get("unlist")
 
+                # add to watchlist
                 if add is not None:
                     request.user.watchlist.add(listing)
+                # remove from watchlist
                 elif remove is not None:
                     request.user.watchlist.remove(listing)
+                # unlist listing
                 elif unlist is not None:
                     listing.is_active = False
                     listing.save()
