@@ -27,16 +27,37 @@
             {% endif %}
         </p>
     {% endif %}
+    
+    {% if listing.is_active %}
+        <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+            {% csrf_token %}
+            {% if in_watchlist %}
+                <input name="remove" type="submit" value="Remove from Watchlist"/>
+            {% else %}
+                <input name="add" type="submit" value="Add to Watchlist"/>
+            {% endif %}
+        </form>
 
-    <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
-        {% csrf_token %}
-        {% if in_watchlist %}
-            <input name="remove" type="submit" value="Remove from Watchlist"/>
-        {% else %}
-            <input name="add" type="submit" value="Add to Watchlist"/>
+        {% if listing.lister == user %}
+            <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+                {% csrf_token %}
+                <input name="unlist" type="submit" value="Unlist">
+            </form>
         {% endif %}
-    </form>
 
+    {% else %}
+        <p>
+            <b>You have unlisted this item.
+                {% if not listing.highest_bidder == "0" %}
+                    <span class="winner">                    
+                        {{ listing.highest_bidder }}
+                    </span> 
+                    is the winner.
+                {% endif %}
+            </b>
+        </p>
+        
+    {% endif %}
     <hr>
     
     <h4>Details</h4>

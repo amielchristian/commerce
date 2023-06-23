@@ -69,11 +69,15 @@ def listing(request, listing_id):
             else:
                 add = request.POST.get("add")
                 remove = request.POST.get("remove")
+                unlist = request.POST.get("unlist")
 
                 if add is not None:
                     request.user.watchlist.add(listing)
                 elif remove is not None:
                     request.user.watchlist.remove(listing)
+                elif unlist is not None:
+                    listing.is_active = False
+                    listing.save()
 
             return HttpResponseRedirect(reverse(f"listing", args=[listing_id])) # redirect to listing page
 

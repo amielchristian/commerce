@@ -51,3 +51,7 @@ textarea    {
 .create-listing .label  {
     width: 10%;
 }
+
+.winner {
+    color: green;
+}
