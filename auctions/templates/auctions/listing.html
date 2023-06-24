@@ -46,17 +46,27 @@
         {% endif %}
 
     {% else %}
-        <p>
-            <b>This item has been unlisted.
+        <b>
+            {% if user == listing.highest_bidder %}
+                <p class="winner">Congratulations! You have won this auction.</p>
+
+            {% else %}
+                {% if user == listing.lister %}
+                    <p>You have unlisted this item.
+                {% else %}
+                    <p>This item has been unlisted.
+                {% endif %}
+
                 {% if not listing.highest_bidder == "no bids yet" %}
                     <span class="winner">                    
                         {{ listing.highest_bidder }}
                     </span> 
                     is the winner.
+                </p>
+                
                 {% endif %}
-            </b>
-        </p>
-        
+            {% endif %}
+        </b>
     {% endif %}
     <hr>
     
