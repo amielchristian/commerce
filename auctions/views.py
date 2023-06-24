@@ -108,6 +108,26 @@ def watchlist(request):
         "watchlist": watchlist
     })
 
+def user(request, username):
+
+    return render(request, "auctions/user.html")
+
+def categories(request):
+    categories = Category.objects.all()
+
+    return render(request, "auctions/categories.html", {
+        "categories": categories
+    })
+
+def category(request, categ_name):
+    category = Category.objects.get(category=categ_name)
+    listings = Listing.objects.filter(category=category, is_active=True)
+
+    return render(request, "auctions/category.html", {
+        "category": categ_name,
+        "listings": listings
+    })
+
 @login_required(login_url='login')
 def create_listing(request):
     if request.method == "POST":
