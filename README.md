@@ -8,4 +8,7 @@
 - prevent users from seeing closed listings both in main page and wishlist (unless they listed it or they won) | done!
 - prevent users from bidding on their own listings
 - indicate if the current user won an auction | done!
+- prevent users from removing listings they bidded on from their watchlist OR create a separate page for those listings (think i'll go with the former)
+- MAYBE don't remove closed listings from watchlist and simply mark them as closed instead
+- MAYBE add User view to see items listed and auctions won?
 - add category view

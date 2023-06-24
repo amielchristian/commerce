@@ -107,7 +107,7 @@ def watchlist(request):
     to_remove = []
     # add to another list closed listings where the user is neither the winner nor the lister
     for listing in watchlist:
-        if not listing.is_active and not (request.user == listing.highest_bidder or request.user == listing.lister):
+        if not listing.is_active and not (request.user == listing.highest_bidder() or request.user == listing.lister):
             to_remove.append(listing)
 
     # remove from the main list the contents of the secondary list
