@@ -52,6 +52,14 @@ textarea    {
     width: 10%;
 }
 
-.winner {
+.won {
     color: green;
+}
+
+.lost {
+    color: red;
+}
+
+.closed   {
+    color: lightslategray;
 }

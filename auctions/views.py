@@ -102,16 +102,8 @@ def listing(request, listing_id):
 
 @login_required(login_url='login')
 def watchlist(request):
-    watchlist = list(request.user.watchlist.all()) # get all listings in watchlist
-    
-    to_remove = []
-    # add to another list closed listings where the user is neither the winner nor the lister
-    for listing in watchlist:
-        if not listing.is_active and not (request.user == listing.highest_bidder() or request.user == listing.lister):
-            to_remove.append(listing)
+    watchlist = request.user.watchlist.all()
 
-    # remove from the main list the contents of the secondary list
-    watchlist = [listing for listing in watchlist if listing not in to_remove]
     return render(request, "auctions/watchlist.html", {
         "watchlist": watchlist
     })

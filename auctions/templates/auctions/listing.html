@@ -60,7 +60,7 @@
     {% else %}
         <b>
             {% if user == listing.highest_bidder %}
-                <p class="winner">Congratulations! You have won this auction.</p>
+                <p class="won">Congratulations! You have won this auction.</p>
 
             {% else %}
                 {% if user == listing.lister %}
@@ -70,7 +70,7 @@
                 {% endif %}
 
                 {% if not listing.highest_bidder == "no bids yet" %}
-                    <span class="winner">                    
+                    <span class="won">                    
                         {{ listing.highest_bidder }}
                     </span> 
                     is the winner.

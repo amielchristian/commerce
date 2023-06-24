@@ -9,7 +9,18 @@
         <a class="listing-container" href="{% url 'listing' listing_id=listing.id %}">
             <img src="/static/auctions/{{ listing.image_name }}" alt="Image of {{ listing.name }}">
             <div class="listing-text">
-                <p class="listing-name">{{ listing }}</p>
+                {% if listing.is_active %}
+                    <p class="listing-name">{{ listing }}</p>
+                {% else %}
+                    {% if not listing.highest_bidder == user %}
+                        <p class="listing-name lost">{{ listing }} [CLOSED]</p>
+                    {% elif listing.lister == user %}
+                        <p class="listing-name closed">{{ listing }} [CLOSED]</p>
+                    {% elif listing.highest_bidder == user %}
+                        <p class="listing-name won">{{ listing }} [WON]</p>
+                    {% endif %}
+                {% endif %}
+
                 <p><b>Price: </b>${{ listing.highest_bid }}</p>
                 <p>{{ listing.description }}</p>
                 <p class="listing-time">Created {{ listing.time }}</p>
