@@ -6,7 +6,7 @@
 - allow user to create and close listings | done!
 - bidding should automatically add the listing to the watchlist | done!
 - prevent users from seeing closed listings both in main page and wishlist (unless they listed it or they won) | done!
-- prevent users from bidding on their own listings
+- prevent users from bidding on their own listings | done!
 - indicate if the current user won an auction | done!
 - prevent users from removing listings they bidded on from their watchlist OR create a separate page for those listings (think i'll go with the former)
 - MAYBE don't remove closed listings from watchlist and simply mark them as closed instead
