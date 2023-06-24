@@ -9,6 +9,6 @@
 - prevent users from bidding on their own listings | done!
 - indicate if the current user won an auction | done!
 - MAYBE don't remove closed listings from watchlist and simply mark them as closed instead | done!
-- add User page to see items listed and auctions won?
+- add User page to see items listed and auctions won? | done!
 - add category view | done!
 - some CSS

@@ -109,8 +109,21 @@ def watchlist(request):
     })
 
 def user(request, username):
+    user = User.objects.get(username=username)
+    auctions_listed = Listing.objects.filter(lister=user)
+    auctions_bidded_on = []
 
-    return render(request, "auctions/user.html")
+    bids_placed = Bid.objects.filter(bidder=user)
+    for bid in bids_placed:
+        listing = bid.listing
+        if listing not in auctions_bidded_on:
+            auctions_bidded_on.append(listing)
+
+    return render(request, "auctions/user.html", {
+        "user_viewed": user,
+        "auctions_listed": auctions_listed,
+        "auctions_bidded_on": auctions_bidded_on
+    })
 
 def categories(request):
     categories = Category.objects.all()

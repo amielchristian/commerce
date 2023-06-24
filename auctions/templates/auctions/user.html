@@ -1,5 +1,60 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    
+    <h2>
+        {% if not user_viewed == user %}
+            User: {{ user_viewed }}
+        {% else %}
+            Your Account
+        {% endif%}
+    </h2>
+    <br/>
+    <h4>Items listed by <b>{{ user_viewed }}</b></h4>
+    <ul>
+        {% if not auctions_listed %}
+            <p>Nothing here so far.</p>
+        {% else %}
+            {% for listing in auctions_listed %}
+                <a class="listing-container" href="{% url 'listing' listing_id=listing.id %}">
+                    <img src="/static/auctions/{{ listing.image_name }}" alt="Image of {{ listing.name }}">
+                    <div class="listing-text">
+                        <p class="listing-name">{{ listing }}</p>
+                        <p><b>Price: </b>${{ listing.highest_bid }}</p>
+                        <p>{{ listing.description }}</p>
+                        <p class="listing-time">Created {{ listing.time }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+    </ul>
+
+    <h4>Items <b>{{ user_viewed }}</b> bidded on</h4>
+    <ul>
+        {% if not auctions_bidded_on %}
+            <p>Nothing here so far.</p>
+        {% else %}
+            {% for listing in auctions_bidded_on %}
+                <a class="listing-container" href="{% url 'listing' listing_id=listing.id %}">
+                    <img src="/static/auctions/{{ listing.image_name }}" alt="Image of {{ listing.name }}">
+                    <div class="listing-text">
+                        {% if listing.is_active %}
+                            <p class="listing-name">{{ listing }}</p>
+                        {% else %}
+                            {% if listing.highest_bidder == user_viewed %}
+                                <p class="listing-name won">{{ listing }} [WON]</p>
+                            {% elif listing.lister == user_viewed %}
+                                <p class="listing-name closed">{{ listing }} [CLOSED]</p>
+                            {% elif not listing.highest_bidder == user_viewed %}
+                                <p class="listing-name lost">{{ listing }} [CLOSED]</p>
+                            {% endif %}
+                        {% endif %}
+
+                        <p><b>Price: </b>${{ listing.highest_bid }}</p>
+                        <p>{{ listing.description }}</p>
+                        <p class="listing-time">Created {{ listing.time }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+    </ul>
 {% endblock %}

@@ -12,12 +12,12 @@
                 {% if listing.is_active %}
                     <p class="listing-name">{{ listing }}</p>
                 {% else %}
-                    {% if not listing.highest_bidder == user %}
-                        <p class="listing-name lost">{{ listing }} [CLOSED]</p>
+                    {% if listing.highest_bidder == user %}
+                        <p class="listing-name won">{{ listing }} [WON]</p>
                     {% elif listing.lister == user %}
                         <p class="listing-name closed">{{ listing }} [CLOSED]</p>
-                    {% elif listing.highest_bidder == user %}
-                        <p class="listing-name won">{{ listing }} [WON]</p>
+                    {% elif not listing.highest_bidder == user %}
+                        <p class="listing-name lost">{{ listing }} [CLOSED]</p>
                     {% endif %}
                 {% endif %}
 

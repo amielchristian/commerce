@@ -58,6 +58,13 @@
         {% endif %}
 
     {% else %}
+        <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+            {% csrf_token %}
+            {% if in_watchlist %}
+                <input name="remove" type="submit" value="Remove from Watchlist"/>
+            {% endif %}
+        </form>
+
         <b>
             {% if user == listing.highest_bidder %}
                 <p class="won">Congratulations! You have won this auction.</p>
@@ -84,7 +91,7 @@
     
     <h4>Details</h4>
     <ul>
-        <li>Listed by: {{ listing.lister }}</li>
+        <li>Listed by: <a href="{% url 'user' username=listing.lister %}">{{ listing.lister }}</a></li>
         <li>Category: {{ listing.category }}</li>
         <li>Placed at: {{ listing.time }}</li>
         <li>Starting price: ${{ listing.start_price }}</li>
