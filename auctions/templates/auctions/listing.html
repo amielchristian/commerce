@@ -6,10 +6,22 @@
     <p>{{ listing.description }}</p>
     <h4>${{ listing.highest_bid }}</h4>
 
-    <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
-        {% csrf_token %}
-        {{ bid_form }}
-    </form>
+    {% if listing.is_active %}
+        {% if not listing.lister == user %}
+            <form method="POST" action="{% url 'listing' listing_id=listing_id %}">
+                {% csrf_token %}
+                {{ bid_form }}
+                <input type="submit" value="Place Bid">
+        {% else %}
+            <form method="POST">
+                <div title="You can't place bids on your own listing.">
+                    {{ bid_form }}
+                    <input type="submit" value="Place Bid" disabled="true">
+                </div>
+        {% endif %}
+            </form>
+    {% endif %}
+
     {% if listing.highest_bidder == "no bids yet" %}
         <p>No bids yet.</p>
     {% else %}
